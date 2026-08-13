@@ -5,6 +5,8 @@
 [![License](https://img.shields.io/github/license/obrige/dsh-docker)](https://github.com/obrige/dsh-docker/blob/main/LICENSE)
 [![Stars](https://img.shields.io/github/stars/obrige/dsh-docker?logo=github)](https://github.com/obrige/dsh-docker)
 
+> **EN** — One-click, self-hosted **DeepSeek Harness (dsh) Web UI** via Docker Compose. The Docker image is auto-built by GitHub Actions and published to GHCR, so `docker compose pull && docker compose up -d` runs a DeepSeek AI coding agent / LLM harness with a browser UI in seconds — no Node.js, no local build, always latest. 中文说明见下文。
+
 DeepSeek 官方只提供 npm / 源码两种运行方式,仓库里没有 Dockerfile。
 本仓库用 GitHub Actions **在线构建**镜像并推送到 GHCR,本地**不用构建**,
 `docker compose` 直接拉取现成镜像,不锁版本。
