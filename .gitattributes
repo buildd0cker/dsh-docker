@@ -1,0 +1,5 @@
+# 批处理脚本强制 CRLF,保证 Windows 双击可用
+*.bat text eol=crlf
+
+# 其余文本统一 LF
+* text=auto eol=lf
