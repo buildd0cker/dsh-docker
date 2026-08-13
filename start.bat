@@ -9,8 +9,14 @@ if errorlevel 1 (
   exit /b 1
 )
 
-echo 正在构建并启动 DeepSeek Harness ...
-docker compose up -d --build
+echo 正在拉取最新镜像并启动 DeepSeek Harness ...
+docker compose pull
+if errorlevel 1 (
+  echo [错误] 拉取镜像失败,请检查网络或镜像可见性。
+  pause
+  exit /b 1
+)
+docker compose up -d
 if errorlevel 1 (
   echo [错误] 启动失败,请检查上方日志。
   pause
