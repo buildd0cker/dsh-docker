@@ -3,8 +3,9 @@
 FROM node:24-slim
 
 # 基础工具:git(工作区操作)、curl(健康检查)、socat(端口转发,见 entrypoint)
+# python3/make/g++ 用于编译 node-pty 等原生模块(node-gyp 必需)
 RUN apt-get update \
- && apt-get install -y --no-install-recommends git curl socat ca-certificates \
+ && apt-get install -y --no-install-recommends git curl socat ca-certificates python3 make g++ \
  && rm -rf /var/lib/apt/lists/*
 
 # 安装 DeepSeek Harness 最新版(不锁定版本)
