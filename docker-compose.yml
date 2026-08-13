@@ -1,9 +1,9 @@
 # DeepSeek Harness Web UI - 一键启动
-# 用法:docker compose up -d --build   (或直接双击 start.bat / 运行 start.sh)
+# 镜像由 GitHub Actions 构建并推送到 GHCR,这里直接拉取
 services:
   dsh:
-    build: .
-    image: deepseek-harness:latest
+    image: ghcr.io/obrige/dsh-docker:latest
+    pull_policy: always        # 每次 up 都拉取最新镜像
     container_name: dsh
     restart: unless-stopped
     ports:
