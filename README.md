@@ -1,5 +1,10 @@
 # DeepSeek Harness (dsh) Web UI — Docker 一键启动
 
+[![Build](https://img.shields.io/github/actions/workflow/status/obrige/dsh-docker/docker-image.yml?branch=main&label=build&logo=github)](https://github.com/obrige/dsh-docker/actions/workflows/docker-image.yml)
+[![GHCR](https://img.shields.io/badge/GHCR-ghcr.io%2Fobrige%2Fdsh-docker-blue?logo=docker&logoColor=white)](https://github.com/obrige/dsh-docker/pkgs/container/dsh-docker)
+[![License](https://img.shields.io/github/license/obrige/dsh-docker)](https://github.com/obrige/dsh-docker/blob/main/LICENSE)
+[![Stars](https://img.shields.io/github/stars/obrige/dsh-docker?logo=github)](https://github.com/obrige/dsh-docker)
+
 DeepSeek 官方只提供 npm / 源码两种运行方式,仓库里没有 Dockerfile。
 本仓库用 GitHub Actions **在线构建**镜像并推送到 GHCR,本地**不用构建**,
 `docker compose` 直接拉取现成镜像,不锁版本。
@@ -19,6 +24,8 @@ DeepSeek 官方只提供 npm / 源码两种运行方式,仓库里没有 Dockerfi
 | `docker-compose.yml` | 直接拉取 GHCR 镜像,配置端口、数据卷 |
 | `docker-entrypoint.sh` | 启动入口(内含 socat 端口转发) |
 | `start.bat` / `start.sh` | 一键拉取镜像 + 启动 + 打开浏览器 |
+| `.gitattributes` | 保证 start.bat 以 CRLF 提交 |
+| `LICENSE` | MIT 开源协议 |
 | `data/` | (自动生成)配置、API Key、会话数据,持久化 |
 | `workspace/` | (自动生成)你的项目目录,agent 的工作区 |
 
@@ -47,7 +54,7 @@ DeepSeek 官方只提供 npm / 源码两种运行方式,仓库里没有 Dockerfi
 
 - **首次使用前**:先去仓库 Actions 页手动跑一次工作流,或等 push 触发;构建完成后再 `docker compose pull`。
 - **更新到最新版**:`docker compose pull && docker compose up -d`(Actions 每周一 03:00 自动重建,也可手动触发 workflow_dispatch)。
-- **GHCR 包可见性**:ghcr 上的包默认 private,匿名 pull 会 401。请到 GitHub 头像 → Your packages → `dsh-docker` → Package settings,把可见性改为 **public**(或先 `docker login ghcr.io -u obrige`)。
+- **GHCR 包可见性**:ghcr 上的包默认 private,匿名 pull 会 401。本仓库的包已设为 **public**,可直接拉取。
 
 ## 常用命令
 
