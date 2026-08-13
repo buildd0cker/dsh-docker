@@ -6,10 +6,12 @@ services:
     pull_policy: always        # 每次 up 都拉取最新镜像
     container_name: dsh
     restart: unless-stopped
+    init: true                 # 内置 tini 作为 PID 1,回收 agent 命令产生的僵尸进程
     ports:
       - "3080:3080"            # 宿主机端口:容器端口,改左边可换端口
     volumes:
       - ./data:/data           # DSH 配置/凭据/会话数据(持久化)
       - ./workspace:/workspace # 你的项目目录(agent 的工作区)
+      # - ./projects:/workspace/extra   # 可选:额外挂载更多目录(相对路径,以本文件所在目录为基准)
     environment:
       DSH_HOME: /data
