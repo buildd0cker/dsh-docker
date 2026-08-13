@@ -74,7 +74,7 @@ docker compose down -v       # 停止并删除数据(慎用)
 - **端口被占用**:改 `docker-compose.yml` 里 `"3080:3080"` 左边数字,如 `"8080:3080"`,再 up。
 - **为什么有 socat?**:官方当前版本不支持 `--host 0.0.0.0`,只监听 127.0.0.1;容器内 socat 把 0.0.0.0:3080 转发到 dsh 的 127.0.0.1:3081。
 - **沙箱在容器里能用吗?**:能。dsh 的 Linux 沙箱用 Landlock(无特权 LSM,内核 5.13+ 即可)和 bwrap 双后端,容器内**无需特权、无需加 cap** 即可正常生效,与裸机一致;多个后端都不可用时,dsh 会明确报 `SANDBOX_UNAVAILABLE`(fail-closed),不会静默降级成无沙箱运行。容器本身还额外提供了 PID 命名空间、网络、文件系统视图隔离,比裸机更安全。
-- **想让 agent 访问宿主机更多目录**:容器默认只能看到 `workspace/` 和 `data/`。把其他目录挂载进容器即可,例如在 `docker-compose.yml` 的 volumes 加一行 `- /path/to/your/dir:/workspace/extra`,agent 在 Web UI 里选 `/workspace` 后即可读写 `extra/`。
+- **想让 agent 访问宿主机更多目录?**:最简单的是把代码直接放进 `workspace/`(已挂载为容器内 `/workspace`),选这个工作区即可。想额外挂载别的目录,推荐**相对路径**(以 compose 文件所在目录为基准,换机器、clone 分享都不失效),例如在 `docker-compose.yml` 的 volumes 加一行 `- ./projects:/workspace/extra`,然后 agent 在 Web UI 里选 `/workspace` 后即可读写 `extra/`。
 - **需要特殊能力(如 ptrace 调试、Docker-in-Docker)?**:默认最小权限跑;确有必要时给容器加 `cap_add`(如 `SYS_PTRACE`)或 `--privileged`(不推荐),按需放开。
 - **Linux 下 data/ 属主是 root**:容器以 root 运行,属正常;清理可 `sudo chown -R $(id -u):$(id -g) data`。
 - **想用别的 LLM**:Web UI 里 Settings → Models → Add provider,或加自定义 OpenAI 兼容端点。
