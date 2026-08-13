@@ -1,0 +1,15 @@
+# DeepSeek Harness Web UI - 一键启动
+# 用法:docker compose up -d --build   (或直接双击 start.bat / 运行 start.sh)
+services:
+  dsh:
+    build: .
+    image: deepseek-harness:latest
+    container_name: dsh
+    restart: unless-stopped
+    ports:
+      - "3080:3080"            # 宿主机端口:容器端口,改左边可换端口
+    volumes:
+      - ./data:/data           # DSH 配置/凭据/会话数据(持久化)
+      - ./workspace:/workspace # 你的项目目录(agent 的工作区)
+    environment:
+      DSH_HOME: /data
