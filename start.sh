@@ -7,8 +7,9 @@ if ! command -v docker >/dev/null 2>&1; then
   exit 1
 fi
 
-echo "正在构建并启动 DeepSeek Harness ..."
-docker compose up -d --build
+echo "正在拉取最新镜像并启动 DeepSeek Harness ..."
+docker compose pull
+docker compose up -d
 
 echo "启动成功!正在打开浏览器 http://127.0.0.1:3080 ..."
 case "$(uname -s)" in
