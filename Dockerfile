@@ -11,6 +11,9 @@ RUN apt-get update \
 # 安装 DeepSeek Harness 最新版(不锁定版本)
 RUN npm install -g @deepseek-ai/dsh
 
+RUN npm install -g pnpm
+RUN curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR=/usr/local/bin sh
+
 # 数据目录:配置、凭据、会话都存这里(compose 挂载到宿主 ./data)
 ENV DSH_HOME=/data
 RUN mkdir -p /data /workspace
