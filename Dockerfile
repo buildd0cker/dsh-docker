@@ -1,6 +1,9 @@
 # DeepSeek Harness (dsh) Web UI - Docker 镜像
-# 说明:不锁版本,每次构建都安装 npm 上的最新版 @deepseek-ai/dsh
+# 说明:默认不锁版本,每次构建都安装 npm 上的最新版 @deepseek-ai/dsh;
+#      可通过 --build-arg DSH_VERSION=xxx 锁定指定版本(如 0.1.1-rc.2)
 FROM node:24-slim
+
+ARG DSH_VERSION=latest
 
 # 基础工具:git(工作区操作)、curl(健康检查)、socat(端口转发,见 entrypoint)
 # python3/make/g++ 用于编译 node-pty 等原生模块(node-gyp 必需)
@@ -12,8 +15,8 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 
-# 安装 DeepSeek Harness 最新版(不锁定版本)
-RUN npm install -g @deepseek-ai/dsh
+# 安装 DeepSeek Harness(默认最新版,可用 DSH_VERSION 指定版本号)
+RUN npm install -g @deepseek-ai/dsh@${DSH_VERSION}
 
 RUN npm install -g pnpm
 RUN curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR=/usr/local/bin sh

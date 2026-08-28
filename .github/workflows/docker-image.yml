@@ -5,6 +5,11 @@ on:
     branches: [main]
     tags: ['v*']
   workflow_dispatch:
+    inputs:
+      dsh-version:
+        description: 'dsh 版本号(如 0.1.1-rc.2);留空则用 npm 最新版'
+        required: false
+        default: ''
   schedule:
     - cron: '0 3 * * 1'
 
@@ -20,6 +25,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+
+      - name: Resolve dsh version
+        id: dsh-version
+        run: |
+          if [ -n "${{ inputs.dsh-version }}" ]; then
+            echo "version=${{ inputs.dsh-version }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=latest" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
@@ -48,5 +62,6 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: DSH_VERSION=${{ steps.dsh-version.outputs.version }}
           cache-from: type=gha
           cache-to: type=gha,mode=max

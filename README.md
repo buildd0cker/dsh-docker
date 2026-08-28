@@ -56,6 +56,7 @@ DeepSeek 官方只提供 npm / 源码两种运行方式,仓库里没有 Dockerfi
 
 - **首次使用前**:先去仓库 Actions 页手动跑一次工作流,或等 push 触发;构建完成后再 `docker compose pull`。
 - **更新到最新版**:`docker compose pull && docker compose up -d`(Actions 每周一 03:00 自动重建,也可手动触发 workflow_dispatch)。
+- **构建指定版本**:Actions 页 → **Run workflow** → 填 `dsh-version`(如 `0.1.1-rc.2`)即可按该版本编译镜像;留空则用 npm 最新版。
 - **GHCR 包可见性**:ghcr 上的包默认 private,匿名 pull 会 401。本仓库的包已设为 **public**,可直接拉取。
 
 ## 常用命令
