@@ -29,10 +29,13 @@ jobs:
       - name: Resolve dsh version
         id: dsh-version
         run: |
-          if [ -n "${{ inputs.dsh-version }}" ]; then
-            echo "version=${{ inputs.dsh-version }}" >> "$GITHUB_OUTPUT"
+          V="${{ inputs.dsh-version }}"
+          if [ -n "$V" ]; then
+            echo "version=$V" >> "$GITHUB_OUTPUT"
+            echo "image-tag=dsh-$V" >> "$GITHUB_OUTPUT"
           else
             echo "version=latest" >> "$GITHUB_OUTPUT"
+            echo "image-tag=" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Set up Docker Buildx
@@ -52,6 +55,7 @@ jobs:
           images: ${{ env.IMAGE_NAME }}
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=dsh-${{ steps.dsh-version.outputs.image-tag }},enable=${{ steps.dsh-version.outputs.image-tag != '' }}
             type=ref,event=tag
             type=sha,prefix=sha-
 
